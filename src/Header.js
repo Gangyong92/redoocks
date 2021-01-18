@@ -2,10 +2,13 @@ import React, { useContext } from "react";
 import { UserContext } from "./context";
 
 const Header = () => {
-  const context = useContext(UserContext);
+  const {
+    user: { name, loggedIn },
+  } = useContext(UserContext);
   return (
     <header>
-      <a href="#">Home</a> Hello, {context.name}!
+      <a href="#">Home</a> Hello, {name} you are{" "}
+      {loggedIn ? "logged in" : "anonymous"}!
     </header>
   );
 };
