@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Header from "./Header";
 
-const Screen = ({ user }) => (
+const Screen = () => (
   <div>
-    <Header user={user} />
+    <Header />
     <h1>First screen</h1>
   </div>
 );
