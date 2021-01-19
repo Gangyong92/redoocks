@@ -1,29 +1,31 @@
-import React, { useState, useContext } from "react";
+import React, { createContext, useState, useContext } from "react";
 
-const UserContext = React.createContext();
+const LangContext = createContext();
 
-const UserContextProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    name: "Nico",
-    loggedIn: false,
-  });
-  const logUserIn = () => setUser({ ...user, loggedIn: true });
-  const logUserOut = () => setUser({ ...user, loggedIn: false });
+const Lang = ({ defaultLang, children, translations }) => {
+  const [lang, setLang] = useState(defaultLang);
+  const hyperTranslate = (text) => {
+    if (lang === defaultLang) {
+      return text;
+    } else {
+      return translations[lang][text];
+    }
+  };
   return (
-    <UserContext.Provider value={{ user, fn: { logUserIn, logUserOut } }}>
+    <LangContext.Provider value={{ setLang, t: hyperTranslate }}>
       {children}
-    </UserContext.Provider>
+    </LangContext.Provider>
   );
 };
 
-export const useUser = () => {
-  const { user } = useContext(UserContext);
-  return user;
+export const useSetLang = () => {
+  const { setLang } = useContext(LangContext);
+  return setLang;
 };
 
-export const useFns = () => {
-  const { fn } = useContext(UserContext);
-  return fn;
+export const useT = () => {
+  const { t } = useContext(LangContext);
+  return t;
 };
 
-export default UserContextProvider;
+export default Lang;
